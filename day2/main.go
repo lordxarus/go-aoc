@@ -31,23 +31,32 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// fmt.Println(strings.Split(line, ";"))
-	test := Round{
-		red:   12,
-		blue:  13,
-		green: 14,
-	}
-	fmt.Println(test)
+	// round 1
+	// test := Round{
+	// 	red:   12,
+	// 	blue:  13,
+	// 	green: 14,
+	// }
+	// fmt.Println(test)
+	// games := getGames(string(in))
+	// idSum := 0
+	// for _, game := range games {
+	// 	possible := isPossible(game, test.red, test.blue, test.green)
+	// 	fmt.Printf("%t %v\n", possible, game)
+	// 	if possible {
+	// 		idSum += game.id
+	// 	}
+	// }
+	// fmt.Println(idSum)
+
+	// round 2
 	games := getGames(string(in))
-	idSum := 0
+	power := 0
 	for _, game := range games {
-		possible := isPossible(game, test.red, test.blue, test.green)
-		fmt.Printf("%t %v\n", possible, game)
-		if possible {
-			idSum += game.id
-		}
+		min := minimum(game)
+		power += min.red * min.green * min.blue
 	}
-	fmt.Println(idSum)
+	fmt.Println(power)
 }
 
 func getGames(in string) []Game {
@@ -109,4 +118,20 @@ func isPossible(game Game, red, green, blue int) bool {
 		}
 	}
 	return true
+}
+
+func minimum(game Game) Round {
+	ret := Round{}
+	for _, round := range game.rounds {
+		if round.red > ret.red {
+			ret.red = round.red
+		}
+		if round.green > ret.green {
+			ret.green = round.green
+		}
+		if round.blue > ret.blue {
+			ret.blue = round.blue
+		}
+	}
+	return ret
 }
